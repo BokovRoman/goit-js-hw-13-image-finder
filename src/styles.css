@@ -18,3 +18,7 @@ body {
    */
   background-image: url('./images/bg-pattern.png');
 }
+
+.button > .spinner.is-hidden {
+  display: none;
+}
