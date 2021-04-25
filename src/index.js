@@ -2,19 +2,25 @@ import './styles.css';
 import './js/apiService';
 import PictureApiService from './js/apiService';
 import picturesTpl from './templates/gallery.hbs';
+import LoadMoreBtn from './js/load-more-btn';
 
 // API.fetchImageByName('cat');
 
 const refs = {
     searchForm: document.querySelector('.js-search-form'),
     galleryContainer: document.querySelector('.js-gallery-container'),
-    loadMoreBtn:document.querySelector('[data-action="load-more"]'),
 };
+
+const loadMoreBtn = new LoadMoreBtn({
+    selector: '[data-action="load-more"]',
+    hidden:true,
+});
+console.log(loadMoreBtn);
 
 const pictureApiService = new PictureApiService();
 
 refs.searchForm.addEventListener('submit', onSearchForm);
-refs.loadMoreBtn.addEventListener('click', onLoadMore);
+loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
 
 
 function onSearchForm(e) {
@@ -25,17 +31,18 @@ function onSearchForm(e) {
         return;
     }
     
+    loadMoreBtn.show();
     pictureApiService.resetPage();
-
-    pictureApiService.fetchPictures().then(hits => {
-        clearGalleryContainer();
-        appendGalleryMarkup(hits);
-});
+    clearGalleryContainer();
+    fetchArticles();
 }
 
-function onLoadMore() {
-    pictureApiService.fetchPictures().then(appendGalleryMarkup);
-
+function fetchArticles() {
+      loadMoreBtn.disable();
+    pictureApiService.fetchPictures().then(hits => {
+        appendGalleryMarkup(hits);
+        loadMoreBtn.enable();
+    });
 }
 
 function appendGalleryMarkup(hits) {
