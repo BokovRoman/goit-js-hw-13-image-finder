@@ -3,6 +3,7 @@ import './js/apiService';
 import PictureApiService from './js/apiService';
 import picturesTpl from './templates/gallery.hbs';
 import LoadMoreBtn from './js/load-more-btn';
+import { showSuccess, showError, showNotice } from './js/show-notification';
 
 // API.fetchImageByName('cat');
 
@@ -27,7 +28,8 @@ function onSearchForm(e) {
     e.preventDefault();
 
     pictureApiService.query = e.currentTarget.elements.query.value;
-    if (pictureApiService.query === '') {
+    if (pictureApiService.query === ''||pictureApiService.query === ' ') {
+        showError();
         return;
     }
     
@@ -38,10 +40,13 @@ function onSearchForm(e) {
 }
 
 function fetchArticles() {
-      loadMoreBtn.disable();
-    pictureApiService.fetchPictures().then(hits => {
-        appendGalleryMarkup(hits);
+        loadMoreBtn.disable();
+        pictureApiService.fetchPictures().then(hits => {
+            appendGalleryMarkup(hits);
+            showFetchNotice(hits);
         loadMoreBtn.enable();
+
+        scrollToStart();
     });
 }
 
@@ -51,4 +56,21 @@ function appendGalleryMarkup(hits) {
 
 function clearGalleryContainer() {
     refs.galleryContainer.innerHTML = '';
+}
+
+function scrollToStart() {
+     window.scrollTo({
+        top: 100,
+        behavior: 'smooth'
+        });
+}
+
+
+function showFetchNotice (hits) {
+    if (hits.length > 1) {
+        // console.log(hits.length);
+        showSuccess();
+    } else {
+        showError();
+    }
 }
