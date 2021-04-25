@@ -4,12 +4,15 @@ import PictureApiService from './js/apiService';
 import picturesTpl from './templates/gallery.hbs';
 import LoadMoreBtn from './js/load-more-btn';
 import { showSuccess, showError, showNotice } from './js/show-notification';
+import * as basicLightbox from 'basiclightbox';
+
 
 // API.fetchImageByName('cat');
 
 const refs = {
     searchForm: document.querySelector('.js-search-form'),
     galleryContainer: document.querySelector('.js-gallery-container'),
+    // galleryCard: document.querySelector('.photo-img'),
 };
 
 const loadMoreBtn = new LoadMoreBtn({
@@ -22,6 +25,7 @@ const pictureApiService = new PictureApiService();
 
 refs.searchForm.addEventListener('submit', onSearchForm);
 loadMoreBtn.refs.button.addEventListener('click', fetchArticles);
+// refs.galleryCard.addEventListener('click', onPictureClick);
 
 
 function onSearchForm(e) {
@@ -74,3 +78,10 @@ function showFetchNotice (hits) {
         showError();
     }
 }
+
+
+// const instance = basicLightbox.create(`
+//     <img src="" width="800" height="600" class="imageBox">
+// `);
+
+//   instance.show();
