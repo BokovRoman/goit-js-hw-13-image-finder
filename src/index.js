@@ -3,8 +3,9 @@ import './js/apiService';
 import PictureApiService from './js/apiService';
 import picturesTpl from './templates/gallery.hbs';
 import LoadMoreBtn from './js/load-more-btn';
-import { showSuccess, showError, showNotice } from './js/show-notification';
+import { showSuccess, showError} from './js/show-notification';
 import * as basicLightbox from 'basiclightbox';
+import 'basiclightbox/dist/basicLightbox.min.css';
 
 
 // API.fetchImageByName('cat');
@@ -80,6 +81,20 @@ function showFetchNotice (hits) {
 }
 
 
+refs.galleryContainer.addEventListener('click', showPopup);
+
+function showPopup(e) {
+if (e.target.tagName !== 'IMG') return;
+e.preventDefault();
+const instance = basicLightbox.create(`
+<img src="${e.target.dataset.img}" width="800" height="600" class="imageBox">
+`);
+
+instance.show();
+}
+
+
+//пример из документации--------
 // const instance = basicLightbox.create(`
 //     <img src="" width="800" height="600" class="imageBox">
 // `);
