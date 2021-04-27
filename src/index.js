@@ -44,15 +44,25 @@ function onSearchForm(e) {
     fetchArticles();
 }
 
-function fetchArticles() {
+// function fetchArticles() {
+//         loadMoreBtn.disable();
+//         pictureApiService.fetchPictures().then(hits => {
+//             appendGalleryMarkup(hits);
+//             showFetchNotice(hits);
+//         loadMoreBtn.enable();
+
+//         scrollToStart();
+//     });
+// }
+
+async function fetchArticles() {
         loadMoreBtn.disable();
-        pictureApiService.fetchPictures().then(hits => {
+        const hits= await pictureApiService.fetchPictures()
             appendGalleryMarkup(hits);
             showFetchNotice(hits);
         loadMoreBtn.enable();
 
         scrollToStart();
-    });
 }
 
 function appendGalleryMarkup(hits) {

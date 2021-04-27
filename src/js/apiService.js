@@ -18,16 +18,23 @@ export default class PictureApiService{
         this.page = 1;
     }
 
-    fetchPictures() {
-        // console.log('Before request',this);
-        return fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`)
-        .then(response => response.json())
-            .then(({hits}) => {
-                  this.incrementPage();
-                return hits;
-                //  console.log(data);
-                // console.log('After request if OK',this)
-        });
+    // fetchPictures() {
+    //     // console.log('Before request',this);
+    //     return fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`)
+    //     .then(response => response.json())
+    //         .then(({hits}) => {
+    //               this.incrementPage();
+    //             return hits;
+    //             //  console.log(data);
+    //             // console.log('After request if OK',this)
+    //     });
+    // }
+
+    async fetchPictures() {
+       const response=await fetch(`https://pixabay.com/api/?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`)
+        const { hits } = await response.json()
+        this.incrementPage();
+        return hits;
     }
 
     incrementPage() {
